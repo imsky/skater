@@ -1,7 +1,11 @@
+// todo: banner
 // todo: tests
-// todo: demo page
+// todo: README
+// 0.9
 // todo: documentation + automated jsdoc to markdown
 // todo: rAF polyfill build version
+// todo: demo page
+// 1.0
 
 const requestAnimationFrame = window.requestAnimationFrame;
 
@@ -24,6 +28,7 @@ function easeInOutQuad(deltaTime, startValue, deltaValue, totalTime) {
  * @param {object} startPosition
  * @param {object} endPosition
  * @param {number} durationMs
+ * @param {function} durationFn
  * @param {object} containerElement
  * @param {function} easingFn
  * @param {function} callbackFn
@@ -33,6 +38,7 @@ function createSkater(
   startPosition,
   endPosition,
   durationMs,
+  durationFn,
   containerElement,
   easingFn,
   callbackFn,
@@ -44,6 +50,12 @@ function createSkater(
   };
   let startTime;
   let requestID;
+
+  durationMs = durationFn ? durationFn(deltaPosition) : durationMs;
+
+  if (durationMs < 0 || Number.isNaN(durationMs)) {
+    throw Error(`Invalid duration: ${durationMs}`);
+  }
 
   function animate(currentTime = 0) {
     startTime = startTime || currentTime;
@@ -89,21 +101,13 @@ function createSkater(
  * @param {string|object} target
  */
 function getElement(target) {
-  let element;
-
   if (typeof target === 'string') {
-    element = document.querySelector(target);
+    return document.querySelector(target);
   } else if (typeof target === 'object' && target !== null) {
-    element = target;
+    return target;
   } else {
     throw Error('Invalid target');
   }
-
-  if (!element) {
-    return;
-  }
-
-  return element;
 }
 
 /**
@@ -137,15 +141,14 @@ function setSkatingFn(value) {
 function API(target, options = {}) {
   const {
     callbackFn,
-    durationMs = 1000,
+    containerTarget,
+    durationFn,
+    durationMs=1000,
     easingFn = easeInOutQuad,
-    scrollDirection = 'y',
-    containerTarget
+    scrollDirection = 'y'
   } = options;
 
-  if (durationMs < 0 || Number.isNaN(durationMs)) {
-    throw Error(`Invalid duration: ${durationMs}`);
-  } else if (
+  if (
     scrollDirection !== 'x' &&
     scrollDirection !== 'y' &&
     scrollDirection !== 'xy'
@@ -221,6 +224,7 @@ function API(target, options = {}) {
     startPosition,
     endPosition,
     durationMs,
+    durationFn,
     containerElement,
     easingFn,
     callbackFn,
