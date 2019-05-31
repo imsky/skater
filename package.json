@@ -1,0 +1,25 @@
+{
+  "name": "skaterjs",
+  "version": "0.0.0",
+  "description": "",
+  "main": "dist/skater.js",
+  "scripts": {
+    "build": "rollup --config",
+    "format": "prettier --single-quote --write src/**/*",
+    "lint": "eslint src/**/*"
+  },
+  "author": "Ivan Malopinsky",
+  "license": "MIT",
+  "devDependencies": {
+    "buble": "0.19.7",
+    "eslint": "5.16.0",
+    "prettier": "1.17.1",
+    "rollup": "1.12.4",
+    "rollup-plugin-buble": "0.19.6",
+    "rollup-plugin-uglify": "6.0.2"
+  },
+  "build": {
+    "name": "skater",
+    "friendlyName": "Skater"
+  }
+}
