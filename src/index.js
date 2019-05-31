@@ -178,9 +178,15 @@ function API(target, options = {}) {
       y: scrollDirection !== 'x' ? target : 0
     };
   } else {
+    const element = getElement(target);
+
+    if (!element) {
+      return;
+    }
+
+    const elementGeometry = getGeometry(element);
     const lockX = scrollDirection.indexOf('x') === -1;
     const lockY = scrollDirection.indexOf('y') === -1;
-    const elementGeometry = getGeometry(getElement(target));
 
     endPosition = {
       x: lockX ? startPosition.x : elementGeometry.x + startPosition.x,
