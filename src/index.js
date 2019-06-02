@@ -1,7 +1,8 @@
-// todo: banner
 // todo: tests
 // todo: README
 // 0.9
+// todo: cdnjs, jsdelivr
+// todo: GitLab CI
 // todo: documentation + automated jsdoc to markdown
 // todo: rAF polyfill build version
 // todo: demo page
@@ -112,20 +113,6 @@ function getElement(target) {
 
 /**
  *
- * @param {object} element
- */
-function getGeometry(element) {
-  const rect = element.getBoundingClientRect();
-  return {
-    x: rect.x,
-    y: rect.y,
-    width: rect.width,
-    height: rect.height
-  };
-}
-
-/**
- *
  * @param {boolean} value
  */
 function setSkatingFn(value) {
@@ -143,7 +130,7 @@ function API(target, options = {}) {
     callbackFn,
     containerTarget,
     durationFn,
-    durationMs=1000,
+    durationMs = 1000,
     easingFn = easeInOutQuad,
     scrollDirection = 'y'
   } = options;
@@ -166,7 +153,7 @@ function API(target, options = {}) {
 
   if (containerTarget) {
     containerElement = getElement(containerTarget);
-    containerElementGeometry = getGeometry(containerElement);
+    containerElementGeometry = containerElement.getBoundingClientRect();
     startPosition = {
       x: containerElement.scrollLeft,
       y: containerElement.scrollTop
@@ -187,7 +174,7 @@ function API(target, options = {}) {
       return;
     }
 
-    const elementGeometry = getGeometry(element);
+    const elementGeometry = element.getBoundingClientRect();
     const lockX = scrollDirection.indexOf('x') === -1;
     const lockY = scrollDirection.indexOf('y') === -1;
 
