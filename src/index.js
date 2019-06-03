@@ -13,11 +13,12 @@ const requestAnimationFrame = window.requestAnimationFrame;
 let skating = false;
 
 /**
- * source: https://github.com/danro/jquery-easing
- * @param {number} deltaTime
- * @param {number} startValue
- * @param {number} deltaValue
- * @param {number} totalTime
+ * Source: https://github.com/danro/jquery-easing
+ * @param {number} deltaTime - time elapsed so far
+ * @param {number} startValue - the starting value
+ * @param {number} deltaValue - the amount to change from starting value
+ * @param {number} totalTime - total time for animation
+ * @returns {number} current value at deltaTime between startValue and startValue + deltaValue
  */
 function easeInOutQuad(deltaTime, startValue, deltaValue, totalTime) {
   if ((deltaTime /= totalTime / 2) < 1)
@@ -26,14 +27,22 @@ function easeInOutQuad(deltaTime, startValue, deltaValue, totalTime) {
 }
 
 /**
- * @param {object} startPosition
- * @param {object} endPosition
- * @param {number} durationMs
- * @param {function} durationFn
- * @param {object} containerElement
- * @param {function} easingFn
- * @param {function} callbackFn
- * @param {function} setSkatingFn
+ * A "skater" represents a scrolling movement from a starting point to a target.
+ * @typedef {Object} Skater
+ * @property {function} start - Start moving
+ * @property {function} stop - Stop moving
+ */
+
+/**
+ * @param {object} startPosition - the x/y coordinates where the scrolling starts
+ * @param {object} endPosition - the x/y coordinates where the scrolling ends
+ * @param {number} durationMs - how long (in milliseconds) the scroll should take
+ * @param {function} durationFn - custom duration function that overrides durationMs; takes one argument of the form {"x": 0, "y": 0} where the properties x and y represent distance between the scroll start and finish
+ * @param {object} containerElement - an Element that, if set, will be scrolled instead of the document
+ * @param {function} easingFn - custom easing function using the jquery-easing function signature
+ * @param {function} callbackFn - callback to execute once scroll finishes
+ * @param {function} setSkatingFn - function to set scrolling state
+ * @returns {Skater} "skater" object with start and stop functions
  */
 function createSkater(
   startPosition,
@@ -98,8 +107,8 @@ function createSkater(
 }
 
 /**
- *
- * @param {string|object} target
+ * @param {string|object} target - an Element or a CSS selector to resolve to an Element
+ * @returns {object} document element
  */
 function getElement(target) {
   if (typeof target === 'string') {
@@ -112,8 +121,8 @@ function getElement(target) {
 }
 
 /**
- *
- * @param {boolean} value
+ * @param {boolean} value - whether a "skater" is currently moving
+ * @returns {boolean} value
  */
 function setSkatingFn(value) {
   skating = value;
@@ -121,9 +130,16 @@ function setSkatingFn(value) {
 }
 
 /**
- *
- * @param {number|string|object} target
- * @param {object} options
+ * Scroll towards a target.
+ * @param {number|string|object} target - a CSS selector, Element, or number representing a target to scroll to
+ * @param {object} [options] - custom options
+ * @param {function} [options.callbackFn] - callback to execute once scroll finishes
+ * @param {string|object} [options.containerTarget] - set to scroll inside specified container; value can be a CSS selector or an Element
+ * @param {function} [options.durationFn] - custom duration function that overrides durationMs; takes one argument of the form {"x": 0, "y": 0} where the properties x and y represent distance between the scroll start and finish
+ * @param {number} [options.durationMs=1000] - how long (in milliseconds) the scroll should take
+ * @param {function} [options.easingFn] - custom easing function using the jquery-easing function signature
+ * @param {string} [options.scrollDirection="y"] - "y" scrolls only vertically, "x" scrolls only horizontally, "xy" scrolls in both directions
+ * @returns {Skater|undefined} returns an object with start and stop functions; returns undefined if target does not exist
  */
 function API(target, options = {}) {
   const {
@@ -144,8 +160,8 @@ function API(target, options = {}) {
   }
 
   let startPosition = {
-    x: window.scrollX || window.pageXOffset || 0,
-    y: window.scrollY || window.pageYOffset || 0
+    x: window.scrollX || window.pageXOffset,
+    y: window.scrollY || window.pageYOffset
   };
 
   let containerElement;

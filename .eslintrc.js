@@ -10,8 +10,10 @@ module.exports = {
   },
   'rules': {
     'eqeqeq': ['error', 'always'],
+    'func-names': 'error',
     'no-implicit-coercion': 'error',
     'no-useless-return': 'error',
-    'radix': 'error'
+    'radix': 'error',
+    'valid-jsdoc': 'error'
   }
 }
