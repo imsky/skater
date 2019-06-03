@@ -1,18 +1,27 @@
 {
   "name": "skaterjs",
-  "description": "Skater makes smooth scrolling easy",
+  "description": "Skater makes smooth scrolling simple",
   "version": "0.0.0",
   "main": "dist/skater.js",
   "scripts": {
     "build": "rollup --config",
     "format": "prettier --single-quote --write src/**/*",
-    "lint": "eslint src/**/*"
+    "lint": "eslint src/**/*",
+    "pretest": "npm run build",
+    "test": "karma start",
+    "posttest": "npm run lint"
   },
   "author": "Ivan Malopinsky",
   "license": "MIT",
   "devDependencies": {
     "buble": "0.19.7",
+    "chai": "4.2.0",
     "eslint": "5.16.0",
+    "karma": "4.1.0",
+    "karma-chai": "0.1.0",
+    "karma-chrome-launcher": "2.2.0",
+    "karma-mocha": "1.3.0",
+    "mocha": "6.1.4",
     "prettier": "1.17.1",
     "rollup": "1.12.4",
     "rollup-plugin-banner": "0.2.0",
@@ -22,6 +31,6 @@
   "build": {
     "name": "skater",
     "friendlyName": "Skater",
-    "summary": "easy smooth scrolling"
+    "summary": "simple smooth scrolling"
   }
 }

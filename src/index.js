@@ -1,4 +1,3 @@
-// todo: tests
 // todo: README
 // 0.9
 // todo: cdnjs, jsdelivr
