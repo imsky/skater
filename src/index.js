@@ -81,7 +81,7 @@ function createSkater(
     error(`Invalid duration: ${durationMs}`);
   }
 
-  function animate(currentTime = 0) {
+  function animate(currentTime) {
     startTime = startTime || currentTime;
     const deltaTime = currentTime - startTime;
     const x = easingFn(deltaTime, startPosition.x, deltaPosition.x, durationMs);
