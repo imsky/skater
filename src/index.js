@@ -11,9 +11,19 @@ let skating = false;
 /**
  * Throw error
  * @param {string} message - error message
+ * @returns {void} N/A
  */
 function error (message) {
   throw Error(message);
+}
+
+/**
+ * Source: https://github.com/jquery/jquery
+ * @param {*} value arbitrary value
+ * @returns {boolean} is value numeric?
+ */
+function isNumeric(value) {
+  return (value - parseFloat(value) + 1) >= 0;
 }
 
 /**
@@ -67,7 +77,7 @@ function createSkater(
 
   durationMs = durationFn ? durationFn(deltaPosition) : durationMs;
 
-  if (durationMs < 0 || Number.isNaN(durationMs)) {
+  if (durationMs < 0 || !isNumeric(durationMs)) {
     error(`Invalid duration: ${durationMs}`);
   }
 
