@@ -1,8 +1,5 @@
-// todo: README
-// 0.9
 // todo: cdnjs, jsdelivr
 // todo: GitLab CI
-// todo: documentation + automated jsdoc to markdown
 // todo: rAF polyfill build version
 // todo: demo page
 // 1.0
@@ -10,6 +7,14 @@
 const requestAnimationFrame = window.requestAnimationFrame;
 
 let skating = false;
+
+/**
+ * Throw error
+ * @param {string} message - error message
+ */
+function error (message) {
+  throw Error(message);
+}
 
 /**
  * Source: https://github.com/danro/jquery-easing
@@ -63,7 +68,7 @@ function createSkater(
   durationMs = durationFn ? durationFn(deltaPosition) : durationMs;
 
   if (durationMs < 0 || Number.isNaN(durationMs)) {
-    throw Error(`Invalid duration: ${durationMs}`);
+    error(`Invalid duration: ${durationMs}`);
   }
 
   function animate(currentTime = 0) {
@@ -115,7 +120,7 @@ function getElement(target) {
   } else if (typeof target === 'object' && target !== null) {
     return target;
   } else {
-    throw Error('Invalid target');
+    error('Invalid target');
   }
 }
 
@@ -155,7 +160,7 @@ function API(target, options = {}) {
     scrollDirection !== 'y' &&
     scrollDirection !== 'xy'
   ) {
-    throw Error(`Invalid scroll direction: ${scrollDirection}`);
+    error(`Invalid scroll direction: ${scrollDirection}`);
   }
 
   let startPosition = {
