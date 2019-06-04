@@ -93,7 +93,7 @@ function createSkater(
 
   return {
     start: function start() {
-      if (Math.abs(deltaPosition.y) > 0 || Math.abs(deltaPosition.x) > 0) {
+      if (!requestID && (Math.abs(deltaPosition.y) > 0 || Math.abs(deltaPosition.x) > 0)) {
         requestID = requestAnimationFrame(animate);
         setSkatingFn(true);
       }
