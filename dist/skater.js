@@ -1,6 +1,6 @@
 /** 
  * Skater - simple smooth scrolling
- * Version 0.0.0
+ * Version 0.9.0
  * © 2019 Ivan Malopinsky
  */
 (function (global, factory) {
