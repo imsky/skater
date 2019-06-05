@@ -8,6 +8,12 @@ const { name, friendlyName, summary } = packageJSON.build;
 const { author, version } = packageJSON;
 
 function rollup({ minify }) {
+  const bannerText = [
+    `${friendlyName} - ${summary}`,
+    `Version ${version}`,
+    `© ${(new Date).getFullYear()} ${author}`
+  ].join('\n');
+
   return {
     input: 'src/index.js',
     output: {
@@ -18,11 +24,7 @@ function rollup({ minify }) {
     plugins: [
       buble(),
       minify ? uglify({ sourcemap: false }) : null,
-      banner.default([
-        `${friendlyName} - ${summary}`,
-        `Version ${version}`,
-        `© ${(new Date).getFullYear()} ${author}`
-      ].join('\n'))
+      banner.default(bannerText)
     ].filter(Boolean)
   };
 }

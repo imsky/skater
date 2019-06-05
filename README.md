@@ -10,6 +10,8 @@ It's tiny (1 KB gzipped) and has zero dependencies.
 
 * npm: `npm install skaterjs`
 * yarn: `yarn install skaterjs`
+* jsdelivr: <https://cdn.jsdelivr.net/npm/skaterjs>
+* unpkg: <https://unpkg.com/skaterjs>
 
 ## Usage
 
