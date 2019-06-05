@@ -1,6 +1,6 @@
 # Skater
 
-[![skaterjs on npm](https://img.shields.io/npm/v/skaterjs.svg)](https://www.npmjs.com/package/skaterjs) ![NPM](https://img.shields.io/npm/l/skaterjs.svg)
+[![Build Status](https://travis-ci.com/imsky/skater.svg?token=UCh1sfy8CJeC65T7zwsz&branch=master)](https://travis-ci.com/imsky/skater) [![codecov](https://codecov.io/gh/imsky/skater/branch/master/graph/badge.svg?token=i6le40iI4y)](https://codecov.io/gh/imsky/skater) [![skaterjs on npm](https://img.shields.io/npm/v/skaterjs.svg)](https://www.npmjs.com/package/skaterjs) [![license](https://img.shields.io/npm/l/skaterjs.svg)](./LICENSE)
 
 Skater makes smooth scrolling simple.
 
