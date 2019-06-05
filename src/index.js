@@ -1,7 +1,7 @@
-// todo: cdnjs
 // todo: GitLab CI
 // todo: rAF polyfill build version
 // todo: demo page
+// todo: cdnjs
 // 1.0
 
 const documentElement = document.documentElement;

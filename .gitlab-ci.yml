@@ -1,0 +1,9 @@
+test:
+  cache:
+    paths:
+    - node_modules
+  coverage: '/^Statements *: (\d+\.\d+%)/'
+  image: node:10-alpine
+  script:
+  - npm install
+  - npm test
