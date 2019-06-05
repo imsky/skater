@@ -82,7 +82,7 @@ describe('Skater', function () {
         window.Skater('#e', {
           containerTarget: '#d',
           callbackFn: function () {
-            expect(Math.floor(d.scrollTop)).to.equal(Math.floor(eY - dY));
+            expect(d.scrollTop).to.equal((eY - dY) | 0);
             done();
         } });
       }
@@ -155,6 +155,15 @@ describe('Skater', function () {
     setTimeout(function () {
       expect(window.scrollY).to.not.equal(wY);
       expect(window.scrollX).to.not.equal(wX);
+      done();
+    }, 2000);
+  });
+
+  it('can use an offset', function (done) {
+    this.timeout(10000);
+    window.Skater(200, { offset: { x: 0, y: 100 } });
+    setTimeout(function () {
+      expect(window.scrollY).to.equal(300);
       done();
     }, 2000);
   });

@@ -1,4 +1,3 @@
-// todo: GitLab CI
 // todo: rAF polyfill build version
 // todo: demo page
 // todo: cdnjs
@@ -6,6 +5,7 @@
 
 const documentElement = document.documentElement;
 const requestAnimationFrame = window.requestAnimationFrame;
+const round = Math.round;
 
 let skating = false;
 
@@ -85,8 +85,8 @@ function createSkater(
   function animate(currentTime) {
     startTime = startTime || currentTime;
     const deltaTime = currentTime - startTime;
-    const x = Math.round(easingFn(deltaTime, startPosition.x, deltaPosition.x, durationMs));
-    const y = Math.round(easingFn(deltaTime, startPosition.y, deltaPosition.y, durationMs));
+    const x = round(easingFn(deltaTime, startPosition.x, deltaPosition.x, durationMs));
+    const y = round(easingFn(deltaTime, startPosition.y, deltaPosition.y, durationMs));
 
     if (deltaTime < durationMs) {
       if (containerElement) {
@@ -155,6 +155,7 @@ function setSkatingFn(value) {
  * @param {function} [options.durationFn] - custom duration function that overrides durationMs; takes one argument of the form {"x": 0, "y": 0} where the properties x and y represent distance between the scroll start and finish
  * @param {number} [options.durationMs=1000] - how long (in milliseconds) the scroll should take
  * @param {function} [options.easingFn] - custom easing function using the jquery-easing function signature
+ * @param {object} [options.offset] - scroll position offset from target, of the form {"x": 0, "y": 0}
  * @param {string} [options.scrollDirection="y"] - "y" scrolls only vertically, "x" scrolls only horizontally, "xy" scrolls in both directions
  * @returns {Skater|undefined} returns an object with start and stop functions; returns undefined if target does not exist
  */
@@ -165,6 +166,7 @@ function API(target, options = {}) {
     durationFn,
     durationMs = 1000,
     easingFn = easeInOutQuad,
+    offset,
     scrollDirection = 'y'
   } = options;
 
@@ -237,6 +239,11 @@ function API(target, options = {}) {
     if (scrollWidth - endPosition.x <= innerWidth) {
       endPosition.x = scrollWidth - innerWidth;
     }
+  }
+
+  if (offset && isNumeric(offset.x) && isNumeric(offset.y)) {
+    endPosition.x = endPosition.x + offset.x;
+    endPosition.y = endPosition.y + offset.y;
   }
 
   const skater = createSkater(
