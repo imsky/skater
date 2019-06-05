@@ -1,6 +1,7 @@
-const buble = require('rollup-plugin-buble');
-const { uglify } = require('rollup-plugin-uglify');
 const banner = require('rollup-plugin-banner');
+const buble = require('rollup-plugin-buble');
+const replace = require('rollup-plugin-replace');
+const { uglify } = require('rollup-plugin-uglify');
 
 const packageJSON = require('./package.json');
 
@@ -22,6 +23,9 @@ function rollup({ minify }) {
       name: friendlyName
     },
     plugins: [
+      replace({
+        'VERSION': version
+      }),
       buble(),
       minify ? uglify({ sourcemap: false }) : null,
       banner.default(bannerText)

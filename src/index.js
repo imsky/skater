@@ -264,4 +264,6 @@ function API(target, options = {}) {
   return skater;
 }
 
+API.version = 'VERSION';
+
 export default API;
