@@ -115,6 +115,19 @@ Skater('#example', {
 })
 ```
 
+### offset
+
+Set a scroll position offset from the target. Both `x` and `y` properties must be defined.
+
+```js
+Skater('#example', {
+  offset: {
+    x: 0,
+    y: 100
+  }
+});
+```
+
 ### scrollDirection
 
 Scroll vertically, horizontally, or both simultaneously:

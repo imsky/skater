@@ -9,7 +9,6 @@
   (global = global || self, global.Skater = factory());
 }(this, function () { 'use strict';
 
-  // todo: GitLab CI
   // todo: rAF polyfill build version
   // todo: demo page
   // todo: cdnjs
@@ -167,6 +166,7 @@
    * @param {function} [options.durationFn] - custom duration function that overrides durationMs; takes one argument of the form {"x": 0, "y": 0} where the properties x and y represent distance between the scroll start and finish
    * @param {number} [options.durationMs=1000] - how long (in milliseconds) the scroll should take
    * @param {function} [options.easingFn] - custom easing function using the jquery-easing function signature
+   * @param {object} [options.offset] - scroll position offset from target, of the form {"x": 0, "y": 0}
    * @param {string} [options.scrollDirection="y"] - "y" scrolls only vertically, "x" scrolls only horizontally, "xy" scrolls in both directions
    * @returns {Skater|undefined} returns an object with start and stop functions; returns undefined if target does not exist
    */
@@ -178,6 +178,7 @@
     var durationFn = options.durationFn;
     var durationMs = options.durationMs; if ( durationMs === void 0 ) durationMs = 1000;
     var easingFn = options.easingFn; if ( easingFn === void 0 ) easingFn = easeInOutQuad;
+    var offset = options.offset;
     var scrollDirection = options.scrollDirection; if ( scrollDirection === void 0 ) scrollDirection = 'y';
 
     if (
@@ -249,6 +250,11 @@
       if (scrollWidth - endPosition.x <= innerWidth) {
         endPosition.x = scrollWidth - innerWidth;
       }
+    }
+
+    if (offset && isNumeric(offset.x) && isNumeric(offset.y)) {
+      endPosition.x = endPosition.x + offset.x;
+      endPosition.y = endPosition.y + offset.y;
     }
 
     var skater = createSkater(
