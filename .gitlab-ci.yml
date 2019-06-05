@@ -5,6 +5,5 @@ test:
   coverage: '/^Statements *: (\d+\.\d+%)/'
   image: node:10-alpine
   script:
-  - env
   - npm install
   - npm test
