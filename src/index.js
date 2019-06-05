@@ -1,4 +1,3 @@
-// todo: rAF polyfill build version
 // todo: demo page
 // todo: cdnjs
 // 1.0
@@ -84,8 +83,12 @@ function createSkater(
   function animate(currentTime) {
     startTime = startTime || currentTime;
     const deltaTime = Math.min(durationMs, currentTime - startTime);
-    const x = Math.round(easingFn(deltaTime, startPosition.x, deltaPosition.x, durationMs));
-    const y = Math.round(easingFn(deltaTime, startPosition.y, deltaPosition.y, durationMs));
+    const x = Math.round(
+      easingFn(deltaTime, startPosition.x, deltaPosition.x, durationMs)
+    );
+    const y = Math.round(
+      easingFn(deltaTime, startPosition.y, deltaPosition.y, durationMs)
+    );
 
     if (containerElement) {
       containerElement.scrollLeft = x;
@@ -100,7 +103,7 @@ function createSkater(
       requestAnimationFrame(() => {
         setSkatingFn(false);
         if (typeof callbackFn === 'function') {
-          callbackFn.call(null);
+          callbackFn();
         }
       });
     }

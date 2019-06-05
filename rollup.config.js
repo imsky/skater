@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const banner = require('rollup-plugin-banner');
 const buble = require('rollup-plugin-buble');
 const replace = require('rollup-plugin-replace');
@@ -8,17 +10,20 @@ const packageJSON = require('./package.json');
 const { name, friendlyName, summary } = packageJSON.build;
 const { author, version } = packageJSON;
 
-function rollup({ minify }) {
+function rollup({ minify, polyfill }) {
   const bannerText = [
     `${friendlyName} - ${summary}`,
     `Version ${version}`,
     `© ${(new Date).getFullYear()} ${author}`
   ].join('\n');
 
+  const file = [name, polyfill && 'polyfilled', minify && 'min', 'js'].filter(Boolean).join('.');
+
   return {
     input: 'src/index.js',
     output: {
-      file: 'dist/' + (minify ? `${name}.min.js` : `${name}.js`),
+      banner: polyfill ? fs.readFileSync('vendor/requestanimationframe.js', 'utf8') : undefined,
+      file: `dist/${file}`,
       format: 'umd',
       name: friendlyName
     },
@@ -33,7 +38,12 @@ function rollup({ minify }) {
   };
 }
 
-module.exports = [
-  rollup({ minify: false }),
-  rollup({ minify: true })
-];
+const builds = [];
+
+for (const minify of [true, false]) {
+  for (const polyfill of [true, false]) {
+    builds.push(rollup({ minify, polyfill }));
+  }
+}
+
+module.exports = builds;

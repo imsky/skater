@@ -154,6 +154,15 @@ Skater('#example', {
 * IE 10+
 * Edge 12+
 
+### Browser support using polyfilled build
+
+You can use a polyfilled build, such as `dist/skater.polyfilled.js` to support the following browsers:
+
+* Chrome 4+
+* Firefox 4+
+* Safari 3.1+
+* IE 8+
+
 ## License
 
 Skater is provided under the [MIT](./LICENSE) license.
