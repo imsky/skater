@@ -1,11 +1,14 @@
+var browser = 'Chrome';
+
 if (process.env.CI) {
   process.env.CHROME_BIN = require('puppeteer').executablePath();
+  browser = 'CI';
 }
 
 module.exports = function (config) {
   config.set({
     autoWatch: false,
-    browsers: ['Chrome'],
+    browsers: [browser],
     colors: true,
     concurrency: Infinity,
     coverageReporter: {
@@ -20,6 +23,24 @@ module.exports = function (config) {
         { type: 'html' },
         { type: 'text-summary' },
       ]
+    },
+    customLaunchers: {
+      CI: {
+        base: 'ChromeHeadless',
+        flags: [
+          '--disable-translate',
+          '--disable-dev-shm-usage',
+          '--disable-extensions',
+          '--disable-gpu',
+          '--disable-setuid-sandbox',
+          '--enable-logging',
+          '--headless',
+          '--no-proxy-server',
+          '--no-sandbox',
+          '--proxy-bypass-list=*',
+          '--v=1',
+        ]
+      }
     },
     files: ['test/**/*.js', 'dist/skater.js'],
     frameworks: ['mocha', 'chai'],

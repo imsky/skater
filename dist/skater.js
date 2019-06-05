@@ -9,12 +9,13 @@
   (global = global || self, global.Skater = factory());
 }(this, function () { 'use strict';
 
-  // todo: cdnjs, jsdelivr
   // todo: GitLab CI
   // todo: rAF polyfill build version
   // todo: demo page
+  // todo: cdnjs
   // 1.0
 
+  var documentElement = document.documentElement;
   var requestAnimationFrame = window.requestAnimationFrame;
 
   var skating = false;
@@ -22,9 +23,19 @@
   /**
    * Throw error
    * @param {string} message - error message
+   * @returns {void} N/A
    */
-  function error (message) {
+  function error(message) {
     throw Error(message);
+  }
+
+  /**
+   * Source: https://github.com/jquery/jquery
+   * @param {*} value arbitrary value
+   * @returns {boolean} is value numeric?
+   */
+  function isNumeric(value) {
+    return value - parseFloat(value) + 1 >= 0;
   }
 
   /**
@@ -78,26 +89,23 @@
 
     durationMs = durationFn ? durationFn(deltaPosition) : durationMs;
 
-    if (durationMs < 0 || Number.isNaN(durationMs)) {
+    if (durationMs < 0 || !isNumeric(durationMs)) {
       error(("Invalid duration: " + durationMs));
     }
 
     function animate(currentTime) {
-      if ( currentTime === void 0 ) currentTime = 0;
-
       startTime = startTime || currentTime;
       var deltaTime = currentTime - startTime;
-      var x = easingFn(deltaTime, startPosition.x, deltaPosition.x, durationMs);
-      var y = easingFn(deltaTime, startPosition.y, deltaPosition.y, durationMs);
-
-      if (containerElement) {
-        containerElement.scrollLeft = x;
-        containerElement.scrollTop = y;
-      } else {
-        window.scrollTo(x, y);
-      }
+      var x = Math.round(easingFn(deltaTime, startPosition.x, deltaPosition.x, durationMs));
+      var y = Math.round(easingFn(deltaTime, startPosition.y, deltaPosition.y, durationMs));
 
       if (deltaTime < durationMs) {
+        if (containerElement) {
+          containerElement.scrollLeft = x;
+          containerElement.scrollTop = y;
+        } else {
+          window.scrollTo(x, y);
+        }
         requestID = requestAnimationFrame(animate);
       } else {
         requestAnimationFrame(function () {
@@ -111,7 +119,10 @@
 
     return {
       start: function start() {
-        if (!requestID && (Math.abs(deltaPosition.y) > 0 || Math.abs(deltaPosition.x) > 0)) {
+        if (
+          !requestID &&
+          (Math.abs(deltaPosition.y) > 0 || Math.abs(deltaPosition.x) > 0)
+        ) {
           requestID = requestAnimationFrame(animate);
           setSkatingFn(true);
         }
@@ -216,7 +227,6 @@
         y: lockY ? startPosition.y : elementGeometry.y + startPosition.y
       };
 
-      var documentElement = document.documentElement;
       var scrollHeight = documentElement.scrollHeight;
       var scrollWidth = documentElement.scrollWidth;
       var innerHeight = window.innerHeight;

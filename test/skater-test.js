@@ -32,7 +32,7 @@ describe('Skater', function () {
     var bY = b.getBoundingClientRect().y;
     window.Skater('#b');
     setTimeout(function () {
-      expect(Math.floor(window.scrollY)).to.equal(Math.floor(bY));
+      expect(window.scrollY).to.equal(Math.round(bY));
       done();
     }, 2000);
   });
@@ -43,7 +43,7 @@ describe('Skater', function () {
     var bY = b.getBoundingClientRect().y;
     window.Skater(b);
     setTimeout(function () {
-      expect(Math.floor(window.scrollY)).to.equal(Math.floor(bY));
+      expect(window.scrollY).to.equal(Math.round(bY));
       done();
     }, 2000);
   });
@@ -54,7 +54,7 @@ describe('Skater', function () {
     var bY = b.getBoundingClientRect().y;
     window.Skater(bY);
     setTimeout(function () {
-      expect(Math.floor(window.scrollY)).to.equal(Math.floor(bY));
+      expect(window.scrollY).to.equal(Math.round(bY));
       window.scrollTo(0, 0);
       window.Skater(100, { scrollDirection: 'x' });
       setTimeout(function () {
