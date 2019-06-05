@@ -1,7 +1,7 @@
 {
   "name": "skaterjs",
   "description": "Skater makes smooth scrolling simple",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "main": "dist/skater.js",
   "scripts": {
     "prebuild": "rm -rf dist/*",
