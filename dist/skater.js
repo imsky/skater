@@ -95,17 +95,18 @@
 
     function animate(currentTime) {
       startTime = startTime || currentTime;
-      var deltaTime = currentTime - startTime;
+      var deltaTime = Math.min(durationMs, currentTime - startTime);
       var x = Math.round(easingFn(deltaTime, startPosition.x, deltaPosition.x, durationMs));
       var y = Math.round(easingFn(deltaTime, startPosition.y, deltaPosition.y, durationMs));
 
+      if (containerElement) {
+        containerElement.scrollLeft = x;
+        containerElement.scrollTop = y;
+      } else {
+        window.scrollTo(x, y);
+      }
+
       if (deltaTime < durationMs) {
-        if (containerElement) {
-          containerElement.scrollLeft = x;
-          containerElement.scrollTop = y;
-        } else {
-          window.scrollTo(x, y);
-        }
         requestID = requestAnimationFrame(animate);
       } else {
         requestAnimationFrame(function () {

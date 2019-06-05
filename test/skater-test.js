@@ -26,6 +26,10 @@ describe('Skater', function () {
     window.scrollTo(0, 0);
   });
 
+  afterEach(function () {
+    window.scrollTo(0, 0);
+  });
+
   it('scrolls to a target defined by a CSS selector', function (done) {
     this.timeout(10000);
     expect(window.Skater).to.exist;
@@ -177,12 +181,13 @@ describe('Skater', function () {
 
   it('does not scroll if already scrolling', function (done) {
     this.timeout(10000);
-    window.Skater('#b');
+    const skater = window.Skater('#b');
     setTimeout(function () {
       var wY = window.scrollY;
       window.Skater('#a');
       setTimeout(function () {
         expect(window.scrollY).to.be.greaterThan(wY);
+        skater.stop();
         done();
       }, 500);
     }, 500);

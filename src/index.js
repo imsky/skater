@@ -84,17 +84,18 @@ function createSkater(
 
   function animate(currentTime) {
     startTime = startTime || currentTime;
-    const deltaTime = currentTime - startTime;
+    const deltaTime = Math.min(durationMs, currentTime - startTime);
     const x = Math.round(easingFn(deltaTime, startPosition.x, deltaPosition.x, durationMs));
     const y = Math.round(easingFn(deltaTime, startPosition.y, deltaPosition.y, durationMs));
 
+    if (containerElement) {
+      containerElement.scrollLeft = x;
+      containerElement.scrollTop = y;
+    } else {
+      window.scrollTo(x, y);
+    }
+
     if (deltaTime < durationMs) {
-      if (containerElement) {
-        containerElement.scrollLeft = x;
-        containerElement.scrollTop = y;
-      } else {
-        window.scrollTo(x, y);
-      }
       requestID = requestAnimationFrame(animate);
     } else {
       requestAnimationFrame(() => {
