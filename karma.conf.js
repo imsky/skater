@@ -5,8 +5,17 @@ module.exports = function (config) {
     colors: true,
     concurrency: Infinity,
     coverageReporter: {
-      type: 'html',
-      dir: 'coverage'
+      check: {
+        global: {
+          statements: 95,
+          branches: 90
+        }
+      },
+      dir: 'coverage',
+      reporters: [
+        { type: 'html' },
+        { type: 'text-summary' },
+      ]
     },
     files: ['test/**/*.js', 'dist/skater.js'],
     frameworks: ['mocha', 'chai'],

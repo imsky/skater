@@ -26,7 +26,7 @@ describe('Skater', function () {
     window.scrollTo(0, 0);
   });
 
-  it('scrolls to a target', function (done) {
+  it('scrolls to a target defined by a CSS selector', function (done) {
     this.timeout(10000);
     expect(window.Skater).to.exist;
     var bY = b.getBoundingClientRect().y;
@@ -34,6 +34,38 @@ describe('Skater', function () {
     setTimeout(function () {
       expect(Math.floor(window.scrollY)).to.equal(Math.floor(bY));
       done();
+    }, 2000);
+  });
+
+  it('scrolls to a target defined by an Element', function (done) {
+    this.timeout(10000);
+    expect(window.Skater).to.exist;
+    var bY = b.getBoundingClientRect().y;
+    window.Skater(b);
+    setTimeout(function () {
+      expect(Math.floor(window.scrollY)).to.equal(Math.floor(bY));
+      done();
+    }, 2000);
+  });
+
+  it('scrolls to a target defined by a number', function (done) {
+    this.timeout(10000);
+    expect(window.Skater).to.exist;
+    var bY = b.getBoundingClientRect().y;
+    window.Skater(bY);
+    setTimeout(function () {
+      expect(Math.floor(window.scrollY)).to.equal(Math.floor(bY));
+      window.scrollTo(0, 0);
+      window.Skater(100, { scrollDirection: 'x' });
+      setTimeout(function () {
+        expect(window.scrollX).to.equal(100);
+        window.Skater(10, { scrollDirection: 'xy' });
+        setTimeout(function () {
+          expect(window.scrollX).to.equal(10);
+          expect(window.scrollY).to.equal(10);
+          done();
+        }, 2000)
+      }, 2000);
     }, 2000);
   });
 
@@ -60,11 +92,11 @@ describe('Skater', function () {
   it('can use a custom duration', function (done) {
     this.timeout(10000);
     var bY = b.getBoundingClientRect().y;
-    window.Skater('#b', {durationMs: 100});
+    window.Skater('#b', {durationMs: 2000});
     setTimeout(function () {
-      expect(Math.floor(window.scrollY)).to.equal(Math.floor(bY));
+      expect(window.scrollY).to.equal(Math.round(bY));
       done();
-    }, 200);
+    }, 3000);
   });
 
   it('can set custom duration with a function', function (done) {
@@ -72,12 +104,12 @@ describe('Skater', function () {
     var bY = b.getBoundingClientRect().y;
     window.Skater('#b', {
       durationFn: function () {
-        return 200;
+        return 2000;
     }});
     setTimeout(function () {
-      expect(Math.floor(window.scrollY)).to.equal(Math.floor(bY));
+      expect(window.scrollY).to.equal(Math.round(bY));
       done();
-    }, 400);
+    }, 3000);
   });
 
   it('can use a custom easing function', function (done) {
@@ -162,6 +194,12 @@ describe('Skater', function () {
       expect(window.scrollY).to.equal(0);
       done();
     }, 500)
+  });
+
+  it('errors out on invalid target', function () {
+    expect(function () {
+      window.Skater(null);
+    }).to.throw('Invalid target');
   });
 
   it('errors out on invalid scroll direction', function () {

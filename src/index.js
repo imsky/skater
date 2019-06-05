@@ -1,9 +1,10 @@
-// todo: cdnjs, jsdelivr
+// todo: cdnjs
 // todo: GitLab CI
 // todo: rAF polyfill build version
 // todo: demo page
 // 1.0
 
+const documentElement = document.documentElement;
 const requestAnimationFrame = window.requestAnimationFrame;
 
 let skating = false;
@@ -13,7 +14,7 @@ let skating = false;
  * @param {string} message - error message
  * @returns {void} N/A
  */
-function error (message) {
+function error(message) {
   throw Error(message);
 }
 
@@ -23,7 +24,7 @@ function error (message) {
  * @returns {boolean} is value numeric?
  */
 function isNumeric(value) {
-  return (value - parseFloat(value) + 1) >= 0;
+  return value - parseFloat(value) + 1 >= 0;
 }
 
 /**
@@ -84,17 +85,16 @@ function createSkater(
   function animate(currentTime) {
     startTime = startTime || currentTime;
     const deltaTime = currentTime - startTime;
-    const x = easingFn(deltaTime, startPosition.x, deltaPosition.x, durationMs);
-    const y = easingFn(deltaTime, startPosition.y, deltaPosition.y, durationMs);
-
-    if (containerElement) {
-      containerElement.scrollLeft = x;
-      containerElement.scrollTop = y;
-    } else {
-      window.scrollTo(x, y);
-    }
+    const x = Math.round(easingFn(deltaTime, startPosition.x, deltaPosition.x, durationMs));
+    const y = Math.round(easingFn(deltaTime, startPosition.y, deltaPosition.y, durationMs));
 
     if (deltaTime < durationMs) {
+      if (containerElement) {
+        containerElement.scrollLeft = x;
+        containerElement.scrollTop = y;
+      } else {
+        window.scrollTo(x, y);
+      }
       requestID = requestAnimationFrame(animate);
     } else {
       requestAnimationFrame(() => {
@@ -108,7 +108,10 @@ function createSkater(
 
   return {
     start: function start() {
-      if (!requestID && (Math.abs(deltaPosition.y) > 0 || Math.abs(deltaPosition.x) > 0)) {
+      if (
+        !requestID &&
+        (Math.abs(deltaPosition.y) > 0 || Math.abs(deltaPosition.x) > 0)
+      ) {
         requestID = requestAnimationFrame(animate);
         setSkatingFn(true);
       }
@@ -213,7 +216,6 @@ function API(target, options = {}) {
       y: lockY ? startPosition.y : elementGeometry.y + startPosition.y
     };
 
-    const documentElement = document.documentElement;
     let scrollHeight = documentElement.scrollHeight;
     let scrollWidth = documentElement.scrollWidth;
     let innerHeight = window.innerHeight;
