@@ -1,17 +1,17 @@
 /** 
  * Skater - simple smooth scrolling
- * Version 0.9.1
+ * Version 0.9.3
  * © 2019 Ivan Malopinsky
  */
 /* Polyfill service v3.34.0
  * For detailed credits and licence information see https://github.com/financial-times/polyfill-service.
- * 
+ *
  * Features requested: requestAnimationFrame
- * 
+ *
  * - Date.now, License: CC0 (required by "requestAnimationFrame")
  * - requestAnimationFrame, License: MIT */
 
-(function(undefined) {
+!(function(undefined) {
 if (!("Date"in this&&"now"in this.Date&&"getTime"in this.Date.prototype
 )) {
 
@@ -100,7 +100,6 @@ if (!("requestAnimationFrame"in this
   (global = global || self, global.Skater = factory());
 }(this, function () { 'use strict';
 
-  // todo: rAF polyfill build version
   // todo: demo page
   // todo: cdnjs
   // 1.0
@@ -370,7 +369,7 @@ if (!("requestAnimationFrame"in this
     return skater;
   }
 
-  API.version = '0.9.1';
+  API.version = '0.9.3';
 
   return API;
 

@@ -1,6 +1,6 @@
 /** 
  * Skater - simple smooth scrolling
- * Version 0.9.1
+ * Version 0.9.3
  * © 2019 Ivan Malopinsky
  */
 (function (global, factory) {
@@ -9,7 +9,6 @@
   (global = global || self, global.Skater = factory());
 }(this, function () { 'use strict';
 
-  // todo: rAF polyfill build version
   // todo: demo page
   // todo: cdnjs
   // 1.0
@@ -279,7 +278,7 @@
     return skater;
   }
 
-  API.version = '0.9.1';
+  API.version = '0.9.3';
 
   return API;
 
