@@ -49,6 +49,7 @@ Skater('#example', {
   durationFn,
   durationMs = 1000,
   easingFn = easeInOutQuad,
+  offset,
   scrollDirection = 'y'
 })
 ```
@@ -156,7 +157,7 @@ Skater('#example', {
 
 ### Browser support using polyfilled build
 
-You can use a polyfilled build, such as `dist/skater.polyfilled.js` to support the following browsers:
+You can use a polyfilled build, such as `dist/skater.polyfilled.js`, to support the following browsers:
 
 * Chrome 4+
 * Firefox 4+

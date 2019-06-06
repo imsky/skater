@@ -10,7 +10,8 @@
     "lint": "eslint src/**/*",
     "pretest": "npm run build",
     "test": "karma start",
-    "posttest": "npm run lint"
+    "posttest": "npm run lint",
+    "prepublish": "npm run build"
   },
   "author": "Ivan Malopinsky",
   "license": "MIT",
@@ -22,6 +23,7 @@
     "karma-chai": "0.1.0",
     "karma-chrome-launcher": "2.2.0",
     "karma-coverage": "1.1.2",
+    "karma-firefox-launcher": "1.1.0",
     "karma-mocha": "1.3.0",
     "mocha": "6.1.4",
     "prettier": "1.17.1",

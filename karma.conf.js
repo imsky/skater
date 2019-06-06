@@ -1,14 +1,14 @@
-var browser = 'Chrome';
+var browsers = ['Chrome', 'Firefox']
 
 if (process.env.CI) {
   process.env.CHROME_BIN = require('puppeteer').executablePath();
-  browser = 'CI';
+  browsers = ['ChromeHeadlessCI', 'FirefoxHeadless'];
 }
 
 module.exports = function (config) {
   config.set({
     autoWatch: false,
-    browsers: [browser],
+    browsers,
     colors: true,
     concurrency: Infinity,
     coverageReporter: {
@@ -26,7 +26,7 @@ module.exports = function (config) {
       ]
     },
     customLaunchers: {
-      CI: {
+      ChromeHeadlessCI: {
         base: 'ChromeHeadless',
         flags: [
           '--disable-translate',
@@ -34,12 +34,10 @@ module.exports = function (config) {
           '--disable-extensions',
           '--disable-gpu',
           '--disable-setuid-sandbox',
-          '--enable-logging',
           '--headless',
           '--no-proxy-server',
           '--no-sandbox',
-          '--proxy-bypass-list=*',
-          '--v=1',
+          '--proxy-bypass-list=*'
         ]
       }
     },

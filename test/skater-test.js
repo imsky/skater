@@ -3,7 +3,7 @@ describe('Skater', function () {
     document.body.insertAdjacentHTML('afterbegin', `
       <style>
         #a, #b {height: 100vh}
-        #b {position: relative; width: 200vh}
+        #b {position: relative; width: 200vw}
         #c {position: absolute; top: 0; left: 50vh}
         #d {width: 200px; height: 200px; overflow: scroll}
         #e {margin-top: 400px; height: 200px}
@@ -52,7 +52,7 @@ describe('Skater', function () {
     }, 2000);
   });
 
-  it('scrolls to a target defined by a number', function (done) {
+  it.only('scrolls to a target defined by a number', function (done) {
     this.timeout(10000);
     expect(window.Skater).to.exist;
     var bY = b.getBoundingClientRect().y;
