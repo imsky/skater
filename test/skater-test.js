@@ -52,7 +52,7 @@ describe('Skater', function () {
     }, 2000);
   });
 
-  it.only('scrolls to a target defined by a number', function (done) {
+  it('scrolls to a target defined by a number', function (done) {
     this.timeout(10000);
     expect(window.Skater).to.exist;
     var bY = b.getBoundingClientRect().y;
