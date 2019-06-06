@@ -2,7 +2,7 @@ var browsers = ['Chrome', 'Firefox']
 
 if (process.env.CI) {
   process.env.CHROME_BIN = require('puppeteer').executablePath();
-  browsers = ['ChromeHeadlessCI', 'FirefoxHeadless'];
+  browsers = ['ChromeHeadlessCI'];
 }
 
 module.exports = function (config) {

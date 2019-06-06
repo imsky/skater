@@ -11,7 +11,8 @@
     "pretest": "npm run build",
     "test": "karma start",
     "posttest": "npm run lint",
-    "prepublish": "npm run build"
+    "prepublish": "npm run format && npm run build",
+    "postversion": "npm run build"
   },
   "author": "Ivan Malopinsky",
   "license": "MIT",
