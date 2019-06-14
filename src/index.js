@@ -10,7 +10,7 @@ let skating = false;
 /**
  * Throw error
  * @param {string} message - error message
- * @returns {void} N/A
+ * @returns {void}
  */
 function error(message) {
   throw Error(message);
@@ -19,7 +19,7 @@ function error(message) {
 /**
  * Source: https://github.com/jquery/jquery
  * @param {*} value arbitrary value
- * @returns {boolean} is value numeric?
+ * @returns {boolean} is the value numeric?
  */
 function isNumeric(value) {
   return value - parseFloat(value) + 1 >= 0;
@@ -142,11 +142,10 @@ function getElement(target) {
 
 /**
  * @param {boolean} value - whether a "skater" is currently moving
- * @returns {boolean} value
+ * @returns {void}
  */
 function setSkatingFn(value) {
   skating = value;
-  return value;
 }
 
 /**

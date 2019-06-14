@@ -25,15 +25,13 @@ Skater also accepts a number or an `Element` as the first argument:
 
 ```js
 Skater(200)
-
-const exampleElement = document.getElementById('example')
-Skater(exampleElement)
+Skater(document.getElementById('example'))
 ```
 
 Skater returns an object with `start` and `stop` functions:
 
 ```js
-const skater = Skater(1000)
+skater = Skater(1000)
 skater.stop()
 setTimeout(() => skater.start(), 500)
 ```
@@ -76,9 +74,8 @@ Skater('#example', {
 })
 
 // Elements can also be passed directly
-const containerElement = document.querySelector('#container');
 Skater('#example', {
-  containerTarget: containerElement
+  containerTarget: document.querySelector('#container')
 })
 ```
 
