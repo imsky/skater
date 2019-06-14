@@ -1,25 +1,28 @@
 describe('Skater', function () {
-  before(function () {
+  before(function (done) {
+    this.timeout(6000);
     document.body.insertAdjacentHTML('afterbegin', `
       <style>
+        * {margin: 0}
         #a, #b {height: 100vh}
         #b {position: relative; width: 200vw}
         #c {position: absolute; top: 0; left: 50vh}
         #d {width: 200px; height: 200px; overflow: scroll}
         #e {margin-top: 400px; height: 200px}
       </style>
-      <div id="a"><h2>a</h2></div>
+      <div id="a"><h2>A</h2></div>
       <div id="b">
-        <h2>b</h2>
+        <h2>B</h2>
         <div id="c">
-          <h3>c</h3>
+          <h3>C</h3>
         </div>
         <div id="d">
-          <h4>d</h4>
-          <div id="e"><h5>e</h5></div>
+          <h4>D</h4>
+          <div id="e"><h5>E</h5></div>
         </div>
       </div>
     `);
+    setTimeout(done, 5000);
   });
 
   beforeEach(function () {
@@ -86,7 +89,7 @@ describe('Skater', function () {
         window.Skater('#e', {
           containerTarget: '#d',
           callbackFn: function () {
-            expect(d.scrollTop).to.equal((eY - dY) | 0);
+            expect(d.scrollTop).to.equal(Math.round(eY - dY));
             done();
         } });
       }
