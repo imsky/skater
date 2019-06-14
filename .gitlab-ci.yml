@@ -3,7 +3,7 @@ test:
     paths:
     - node_modules
   coverage: '/^Statements *: (\d+\.\d+%)/'
-  image: node:10-alpine
+  image: testcafe/testcafe
   script:
   - npm install
   - npm test
