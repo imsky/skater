@@ -3,7 +3,9 @@ test:
     paths:
     - node_modules
   coverage: '/^Statements *: (\d+\.\d+%)/'
-  image: testcafe/testcafe
+  image:
+    name: testcafe/testcafe
+    entrypoint: []
   script:
   - npm install
   - npm test
