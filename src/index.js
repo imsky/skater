@@ -200,7 +200,7 @@ function API(target, options = {}) {
 
   let endPosition;
 
-  if (typeof target === 'number') {
+  if (isNumeric(target)) {
     endPosition = {
       x: scrollDirection !== 'y' ? target : 0,
       y: scrollDirection !== 'x' ? target : 0
