@@ -161,6 +161,10 @@ You can use a polyfilled build, such as `dist/skater.polyfilled.js`, to support 
 * Safari 3.1+
 * IE 8+
 
+## Contributing
+
+Contributions, issues, and feature requests are welcome. Check out the [issues page](https://github.com/imsky/skater/issues) if you'd like to contribute.
+
 ## License
 
 Skater is provided under the [MIT](./LICENSE) license.

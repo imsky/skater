@@ -15,7 +15,11 @@
     "postversion": "npm run build"
   },
   "author": "Ivan Malopinsky",
+  "homepage": "https://github.com/imsky/skater",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/imsky/skater/issues"
+  },
   "devDependencies": {
     "buble": "0.19.7",
     "chai": "4.2.0",
