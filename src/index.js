@@ -1,4 +1,5 @@
 // todo: demo page
+// todo: examples directory with framework and application examples
 // todo: cdnjs
 // 1.0
 
@@ -140,6 +141,7 @@ function getElement(target) {
   }
 }
 
+//todo: consider removing this function
 /**
  * @param {boolean} value - whether a "skater" is currently moving
  * @returns {void}
