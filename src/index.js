@@ -51,7 +51,6 @@ function easeInOutQuad(deltaTime, startValue, deltaValue, totalTime) {
  * @param {object} containerElement - an Element that, if set, will be scrolled instead of the document
  * @param {function} easingFn - custom easing function using the jquery-easing function signature
  * @param {function} callbackFn - callback to execute once scroll finishes
- * @param {function} setSkatingFn - function to set scrolling state
  * @returns {Skater} "skater" object with start and stop functions
  */
 function createSkater(
@@ -61,8 +60,7 @@ function createSkater(
   durationFn,
   containerElement,
   easingFn,
-  callbackFn,
-  setSkatingFn
+  callbackFn
 ) {
   const deltaPosition = {
     x: endPosition.x - startPosition.x,
@@ -98,7 +96,7 @@ function createSkater(
       requestID = requestAnimationFrame(animate);
     } else {
       requestAnimationFrame(() => {
-        setSkatingFn(false);
+        skating = false;
         if (typeof callbackFn === 'function') {
           callbackFn();
         }
@@ -113,12 +111,12 @@ function createSkater(
         (Math.abs(deltaPosition.y) > 0 || Math.abs(deltaPosition.x) > 0)
       ) {
         requestID = requestAnimationFrame(animate);
-        setSkatingFn(true);
+        skating = true;
       }
     },
     stop: function stop() {
       window.cancelAnimationFrame(requestID);
-      setSkatingFn(false);
+      skating = false;
     }
   };
 }
@@ -135,15 +133,6 @@ function getElement(target) {
   } else {
     error('Invalid target');
   }
-}
-
-//todo: consider removing this function
-/**
- * @param {boolean} value - whether a "skater" is currently moving
- * @returns {void}
- */
-function setSkatingFn(value) {
-  skating = value;
 }
 
 /**
@@ -253,8 +242,7 @@ function API(target, options = {}) {
     durationFn,
     containerElement,
     easingFn,
-    callbackFn,
-    setSkatingFn
+    callbackFn
   );
 
   if (!skating) {

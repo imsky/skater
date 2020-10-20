@@ -153,7 +153,6 @@ if (!("requestAnimationFrame"in this
    * @param {object} containerElement - an Element that, if set, will be scrolled instead of the document
    * @param {function} easingFn - custom easing function using the jquery-easing function signature
    * @param {function} callbackFn - callback to execute once scroll finishes
-   * @param {function} setSkatingFn - function to set scrolling state
    * @returns {Skater} "skater" object with start and stop functions
    */
   function createSkater(
@@ -163,8 +162,7 @@ if (!("requestAnimationFrame"in this
     durationFn,
     containerElement,
     easingFn,
-    callbackFn,
-    setSkatingFn
+    callbackFn
   ) {
     var deltaPosition = {
       x: endPosition.x - startPosition.x,
@@ -200,7 +198,7 @@ if (!("requestAnimationFrame"in this
         requestID = requestAnimationFrame(animate);
       } else {
         requestAnimationFrame(function () {
-          setSkatingFn(false);
+          skating = false;
           if (typeof callbackFn === 'function') {
             callbackFn();
           }
@@ -215,12 +213,12 @@ if (!("requestAnimationFrame"in this
           (Math.abs(deltaPosition.y) > 0 || Math.abs(deltaPosition.x) > 0)
         ) {
           requestID = requestAnimationFrame(animate);
-          setSkatingFn(true);
+          skating = true;
         }
       },
       stop: function stop() {
         window.cancelAnimationFrame(requestID);
-        setSkatingFn(false);
+        skating = false;
       }
     };
   }
@@ -237,15 +235,6 @@ if (!("requestAnimationFrame"in this
     } else {
       error('Invalid target');
     }
-  }
-
-  //todo: consider removing this function
-  /**
-   * @param {boolean} value - whether a "skater" is currently moving
-   * @returns {void}
-   */
-  function setSkatingFn(value) {
-    skating = value;
   }
 
   /**
@@ -355,8 +344,7 @@ if (!("requestAnimationFrame"in this
       durationFn,
       containerElement,
       easingFn,
-      callbackFn,
-      setSkatingFn
+      callbackFn
     );
 
     if (!skating) {
