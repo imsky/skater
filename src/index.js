@@ -1,8 +1,16 @@
 const documentElement = document.documentElement;
 const requestAnimationFrame = window.requestAnimationFrame;
 
-//todo: account for different containers, so that multiple Skaters can be active simultaneously in different containers; maybe use an array of references
-let skating = false;
+let skaters = [];
+
+/**
+ * Remove reference of Skater container from skaters array, allowing another Skater to run in the same container
+ * @param {Object} skaterRef - Reference of Skater container, window or Element
+ * @returns {void}
+ */
+function removeSkaterRef(skaterRef) {
+  skaters.splice(skaters.indexOf(skaterRef), 1);
+}
 
 /**
  * Throw error
@@ -66,6 +74,7 @@ function createSkater(
     x: endPosition.x - startPosition.x,
     y: endPosition.y - startPosition.y
   };
+  const skaterRef = containerElement || window;
   let startTime;
   let requestID;
 
@@ -96,7 +105,7 @@ function createSkater(
       requestID = requestAnimationFrame(animate);
     } else {
       requestAnimationFrame(() => {
-        skating = false;
+        removeSkaterRef(skaterRef);
         if (typeof callbackFn === 'function') {
           callbackFn();
         }
@@ -107,22 +116,23 @@ function createSkater(
   return {
     start: function start() {
       if (
+        skaters.indexOf(skaterRef) === -1 &&
         !requestID &&
         (Math.abs(deltaPosition.y) > 0 || Math.abs(deltaPosition.x) > 0)
       ) {
         requestID = requestAnimationFrame(animate);
-        skating = true;
+        skaters.push(skaterRef);
       }
     },
     stop: function stop() {
       window.cancelAnimationFrame(requestID);
-      skating = false;
+      removeSkaterRef(skaterRef);
     }
   };
 }
 
 /**
- * @param {string|object} target - an Element or a CSS selector to resolve to an Element
+ * @param {object|string} target - an Element or a CSS selector to resolve to an Element
  * @returns {object} document element
  */
 function getElement(target) {
@@ -245,10 +255,7 @@ function API(target, options = {}) {
     callbackFn
   );
 
-  if (!skating) {
-    skater.start();
-  }
-
+  skater.start();
   return skater;
 }
 
