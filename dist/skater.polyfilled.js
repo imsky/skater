@@ -103,8 +103,16 @@ if (!("requestAnimationFrame"in this
   var documentElement = document.documentElement;
   var requestAnimationFrame = window.requestAnimationFrame;
 
-  //todo: account for different containers, so that multiple Skaters can be active simultaneously in different containers; maybe use an array of references
-  var skating = false;
+  var skaters = [];
+
+  /**
+   * Remove reference of Skater container from skaters array, allowing another Skater to run in the same container
+   * @param {Object} skaterRef - Reference of Skater container, window or Element
+   * @returns {void}
+   */
+  function removeSkaterRef(skaterRef) {
+    skaters.splice(skaters.indexOf(skaterRef), 1);
+  }
 
   /**
    * Throw error
@@ -168,6 +176,7 @@ if (!("requestAnimationFrame"in this
       x: endPosition.x - startPosition.x,
       y: endPosition.y - startPosition.y
     };
+    var skaterRef = containerElement || window;
     var startTime;
     var requestID;
 
@@ -198,7 +207,7 @@ if (!("requestAnimationFrame"in this
         requestID = requestAnimationFrame(animate);
       } else {
         requestAnimationFrame(function () {
-          skating = false;
+          removeSkaterRef(skaterRef);
           if (typeof callbackFn === 'function') {
             callbackFn();
           }
@@ -209,22 +218,23 @@ if (!("requestAnimationFrame"in this
     return {
       start: function start() {
         if (
+          skaters.indexOf(skaterRef) === -1 &&
           !requestID &&
           (Math.abs(deltaPosition.y) > 0 || Math.abs(deltaPosition.x) > 0)
         ) {
           requestID = requestAnimationFrame(animate);
-          skating = true;
+          skaters.push(skaterRef);
         }
       },
       stop: function stop() {
         window.cancelAnimationFrame(requestID);
-        skating = false;
+        removeSkaterRef(skaterRef);
       }
     };
   }
 
   /**
-   * @param {string|object} target - an Element or a CSS selector to resolve to an Element
+   * @param {object|string} target - an Element or a CSS selector to resolve to an Element
    * @returns {object} document element
    */
   function getElement(target) {
@@ -347,10 +357,7 @@ if (!("requestAnimationFrame"in this
       callbackFn
     );
 
-    if (!skating) {
-      skater.start();
-    }
-
+    skater.start();
     return skater;
   }
 
